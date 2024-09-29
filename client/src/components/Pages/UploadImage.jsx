@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
 import Navbar from "./../Navbar/Navbar";
-import submit from "./../../assests/submit.webp";
+import submit from "./../../assests/submit.jpg";
 import detect from "./../../assests/detect.webp";
 
 function UploadImage() {

@@ -1,6 +1,6 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
-import submit from "./../../assests/submit.webp";
+import submit from "./../../assests/submit.jpg";
 
 function Supply() {
   // Use the useLocation hook to get passed state
@@ -10,13 +10,11 @@ function Supply() {
 
   return (
     <div className="relative">
-      
       <img
         src={submit}
         alt="Plant Disease Detection"
-        className="w-full h-[160vh]"
+        className="w-full h-[200vh]"
       />
-
       <div className="absolute top-0 container text-white text-3xl font-bold mx-auto p-4 mt-5">
         {disease && <h2>Detected Disease: {disease}</h2>}
       </div>
@@ -27,7 +25,7 @@ function Supply() {
           <div className="text-left">
           {description && (
             <ul className="list-disc pl-5">
-              {description.split('. ').map((sentence, index) => (
+              {description.split('.').map((sentence, index) => (
                 sentence.trim() && (
                   <li key={index}>{sentence}.</li>
                 )
@@ -43,7 +41,7 @@ function Supply() {
             <div className="text-left">
             {steps && (
               <ul className="list-disc pl-5">
-                {steps.split('. ').map((sentence, index) => (
+                {steps.split('.').map((sentence, index) => (
                   sentence.trim() && (
                     <li key={index}>{sentence}.</li>
                   )
@@ -60,7 +58,7 @@ function Supply() {
                 <img
                   src={supplement_image}
                   alt="Supplement"
-                  className="object-contain h-76 w-96 object-cover"
+                  className="object-contain h-[500px] w-96"
                 />
               </div>
             )}
