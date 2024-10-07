@@ -1,14 +1,22 @@
 "use client";
-
+// import React, { useState } from "react";
+// import { useNavigate } from "react-router-dom";
 import { Card } from "flowbite-react";
+import backImg from "./../../assests/subscriptionBack.jpg"
 
 const Subscription = () => {
   return (
     <>
-    <h1 className="text-center text-4xl font-bold mt-[50px]">
-        Subscription Plans
-    </h1>
-    <div class="w-full gap-4 flex-wrap flex justify-center items-center mt-[50px]">
+    <div className="relative">
+        <img
+          src={backImg} // If imagePreview is not set, show the default image
+          alt="Plant Disease Detection"
+          className="w-[100%] h-[100vh]"
+        />
+      <h1 className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center text-4xl font-bold mt-[70px]">
+          Subscription Plans
+      </h1>
+    <div class="absolute top-[140px] w-full gap-4 flex-wrap flex justify-center items-center">
     <Card className='max-w-sm p-4 w-25'>
       <h5 className="text-xl text-left font-medium text-gray-500 dark:text-gray-700">Basic plan</h5>
       <div className="flex items-baseline text-gray-900 dark:text-gray-900">
@@ -134,7 +142,7 @@ const Subscription = () => {
     </Card>
 
     <Card className='max-w-sm p-4 w-25'>
-      <h5 className="text-xl text-left font-medium text-gray-500 dark:text-gray-600">Half-Yearly plan</h5>
+      <h5 className="text-xl text-left font-medium text-gray-500 dark:text-gray-600">Standard plan</h5>
       <div className="flex items-baseline text-gray-900 dark:text-gray-900">
         <span className="text-3xl font-semibold"><i class="fa-solid fa-indian-rupee-sign"></i></span>
         <span className="text-5xl font-extrabold tracking-tight">499</span>
@@ -258,7 +266,7 @@ const Subscription = () => {
     </Card>
 
     <Card className='max-w-sm p-4 w-25'>
-      <h5 className="text-xl text-left font-medium text-gray-500 dark:text-gray-600">Yearly plan</h5>
+      <h5 className="text-xl text-left font-medium text-gray-500 dark:text-gray-600">Premium plan</h5>
       <div className="flex items-baseline text-gray-900 dark:text-gray-900">
         <span className="text-3xl font-semibold"><i class="fa-solid fa-indian-rupee-sign"></i></span>
         <span className="text-5xl font-extrabold tracking-tight">999</span>
@@ -380,6 +388,7 @@ const Subscription = () => {
         Choose plan
       </button>
     </Card>
+    </div>
     </div>
     </>
   );
