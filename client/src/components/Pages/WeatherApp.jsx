@@ -4,6 +4,10 @@ import SearchEngine from "./SearchEngine";
 import Forecast from "./Forecast";
 import "./Weatherstyles.css";
 
+import {  ArrowLeft } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+
+
 function WeatherApp() {
   const [query, setQuery] = useState("");
   const [weather, setWeather] = useState({
@@ -11,7 +15,7 @@ function WeatherApp() {
     data: {},
     error: false
   });
-
+  const navigate = useNavigate();
   const toDate = () => {
     const months = [
       "January", "February", "March", "April", "May", "June",
@@ -30,7 +34,7 @@ function WeatherApp() {
     event.preventDefault();
     if (event.type === "click" || (event.type === "keypress" && event.key === "Enter")) {
       setWeather({ ...weather, loading: true });
-      const apiKey = "adc2c608775248879cd174146240409"; 
+      const apiKey = "ddf76d77e28e4b6f979151335241610"; 
       const url = `https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${query}`;
 
       try {
@@ -45,7 +49,7 @@ function WeatherApp() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const apiKey = "adc2c608775248879cd174146240409"; // Replace with your WeatherAPI key
+      const apiKey = "ddf76d77e28e4b6f979151335241610"; // Replace with your WeatherAPI key
       const url = `https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=Mehsana`;
 
       try {
@@ -62,6 +66,13 @@ function WeatherApp() {
 
   return (
     <div className="App">
+      <button
+          className="fixed top-4 left-4 bg-white text-green-600 py-2 px-4 rounded-full shadow-lg hover:bg-green-50 transition duration-300 font-semibold flex items-center"
+          onClick={() => navigate(-1)}
+        >
+          <ArrowLeft size={20} className="mr-2" />
+          Back
+        </button>
       <SearchEngine query={query} setQuery={setQuery} search={search} />
 
       {weather.loading && (

@@ -49,13 +49,12 @@ const Contact = () => {
   return (
     <>
       <Navbar />
-      <div className="hero-mid">
-        <img src={contact} alt="hero" />
-
-        <div className="hero-text">
-          <h1>Contact</h1>
-        </div>
-      </div>
+      <section className="relative h-96 overflow-hidden">
+          <img src={contact} alt="Service hero" className="w-full h-full object-cover" />
+          <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+            <h1 className="text-5xl font-bold text-white tracking-wide">Contact Us</h1>
+          </div>
+        </section>
 
       <div class="flex items-center justify-center p-12 text-left">
         <div class="mx-auto w-full max-w-[550px]">

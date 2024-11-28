@@ -86,13 +86,18 @@ def predict_crop():
     # Prepare the input for the crop recommendation model
     input_features = np.array([[nitrogen, phosphorus, potassium, temperature, moisture]])
 
-    # Predict the crop using the model
-    prediction = crop_model.predict(input_features)
-    crop_name = prediction[0]  # Assuming the model predicts the crop name
+    # Get probability predictions for all crops
+    prob_predictions = crop_model.predict_proba(input_features)
+    
+    # Get indices of the top 3 crops with the highest probabilities
+    top_3_indices = np.argsort(prob_predictions[0])[-3:][::-1]
+    
+    # Convert the indices back to crop names
+    top_3_crops = [crop_model.classes_[i] for i in top_3_indices]
 
-    # Return the predicted crop as a JSON response
+    # Return the top 3 predicted crops as a JSON response
     return jsonify({
-        'crop': crop_name
+        'top_3_crops': top_3_crops
     })
 
 if __name__ == '__main__':

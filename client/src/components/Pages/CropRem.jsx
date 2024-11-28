@@ -1,6 +1,7 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-
+import CropRecommendationDiagram from './cropDiagram';
+import { Leaf, Droplet, Thermometer, ArrowLeft } from 'lucide-react';
 
 const CropRem = () => {
   // State variables to store form input values and prediction result
@@ -13,7 +14,7 @@ const CropRem = () => {
   });
   const navigate = useNavigate();
 
-  const [result, setResult] = useState('');
+  const [result, setResult] = useState([]);
   const [hasSubscription, setHasSubscription] = useState(false); // New state for subscription status
 
   // Check subscription status on component mount
@@ -40,7 +41,6 @@ const CropRem = () => {
     checkSubscription();
   }, []);
 
-
   // Handle form input change
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -52,7 +52,7 @@ const CropRem = () => {
     e.preventDefault();
 
     if (!hasSubscription) {
-      navigate("/Subscription");; // Alert if no subscription
+      navigate("/Subscription"); // Redirect if no subscription
       return;
     }
     try {
@@ -66,31 +66,37 @@ const CropRem = () => {
       });
 
       const data = await response.json();
-      setResult(data.crop);  // Set the predicted crop result
+      setResult(data.top_3_crops); // Set the predicted crops result
     } catch (error) {
       console.error('Error:', error);
     }
   };
 
-   // Handle navigation to the service page
-   const goToServicePage = () => {
+  // Handle navigation to the service page
+  const goToServicePage = () => {
     navigate("/service");
   };
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100 p-4">
-
+        <button
+          className="fixed top-4 left-4 bg-white text-green-600 py-2 px-4 rounded-full shadow-lg hover:bg-green-50 transition duration-300 font-semibold flex items-center"
+          onClick={() => navigate(-1)}
+        >
+          <ArrowLeft size={20} className="mr-2" />
+          Back
+        </button>
       {/* Button to redirect to the service page */}
       <div className="absolute top-4 right-4">
         <button
-          className="bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700 transition duration-300 font-semibold"
+          className="bg-green-600 text-white py-3 px-8 rounded-full hover:bg-green-700 transition duration-300 font-semibold text-lg flex items-center shadow-lg hover:shadow-xl transform hover:-translate-y-1"
           onClick={goToServicePage}
         >
           Go to Service
         </button>
       </div>
+     
 
-      
       <div className="flex w-full max-w-4xl bg-white rounded-lg shadow-lg overflow-hidden">
         
         {/* Form Section */}
@@ -98,9 +104,9 @@ const CropRem = () => {
           <h1 className="text-2xl font-bold mb-6 text-[#07074D] text-center">Crop Recommendation Form</h1>
           <form onSubmit={handleSubmit}>
             <div className="mb-4">
-              <label className="mb-2 block text-base font-medium text-[#07074D] text-left">Nitrogen</label>
+              <label className="mb-2 block text-base font-medium text-[#07074D] text-left inset-y-0 left-0 pl-4 flex items-center pointer-events-none"><Leaf className="h-6 w-6 text-green-500 " />Nitrogen</label>
               <input
-                type="number"
+                type="number" 
                 name="nitrogen"
                 placeholder="Enter Nitrogen level"
                 value={formValues.nitrogen}
@@ -111,7 +117,7 @@ const CropRem = () => {
             </div>
 
             <div className="mb-4">
-              <label className="mb-2 block text-base font-medium text-[#07074D] text-left">Phosphorus</label>
+              <label className="mb-2 block text-base font-medium text-[#07074D] text-left inset-y-0 left-0 pl-4 flex items-center pointer-events-none"><Leaf className="h-6 w-6 text-green-500" />Phosphorus</label>
               <input
                 type="number"
                 name="phosphorus"
@@ -124,7 +130,7 @@ const CropRem = () => {
             </div>
 
             <div className="mb-4">
-              <label className="mb-2 block text-base font-medium text-[#07074D] text-left">Potassium</label>
+              <label className="mb-2 block text-base font-medium text-[#07074D] text-left inset-y-0 left-0 pl-4 flex items-center pointer-events-none"><Leaf className="h-6 w-6 text-green-500" />Potassium</label>
               <input
                 type="number"
                 name="potassium"
@@ -137,7 +143,7 @@ const CropRem = () => {
             </div>
 
             <div className="mb-4">
-              <label className="mb-2 block text-base font-medium text-[#07074D] text-left">Temperature</label>
+              <label className="mb-2 block text-base font-medium text-[#07074D] text-left inset-y-0 left-0 pl-4 flex items-center pointer-events-none"><Droplet className="h-6 w-6 text-blue-500" />Temperature</label>
               <input
                 type="number"
                 name="temperature"
@@ -150,7 +156,7 @@ const CropRem = () => {
             </div>
 
             <div className="mb-4">
-              <label className="mb-2 block text-base font-medium text-[#07074D] text-left">Moisture</label>
+              <label className="mb-2 block text-base font-medium text-[#07074D] text-left inset-y-0 left-0 pl-4 flex items-center pointer-events-none"><Thermometer className="h-6 w-6 text-red-500" />Moisture</label>
               <input
                 type="number"
                 name="moisture"
@@ -173,21 +179,23 @@ const CropRem = () => {
         </div>
 
         {/* Result Section */}
-        <div className="w-1/2 bg-gradient-to-r from-green-100 to-green-200 p-8">
-          {result && (
-            <div className="mt-5 p-5 bg-white rounded-md shadow-md">
-              <h3 className="text-lg font-bold text-green-700">Recommended Crop:</h3>
-              <h2 className="text-2xl font-bold text-green-800">{result}</h2>
-            </div>
-          )}
-          {!result && (
-            <div className="flex items-center justify-center h-full">
-              <h2 className="text-lg text-gray-500">Enter the details to see the recommended crop!</h2>
-            </div>
-          )}
+          <div className="w-1/2 bg-gradient-to-r from-green-100 to-green-200 p-8">
+            {result.length > 0 ? (
+              <div className="mt-5 p-5 bg-white rounded-md shadow-md">
+                <h3 className="text-lg font-bold text-green-700">Most Recommended Crop:</h3>
+                <h2 className="text-2xl font-bold text-green-800">{result[0]}</h2>
+
+                <h3 className="text-lg font-bold text-green-700 mt-4">Other Recommended Crops:</h3>
+                <p className="text-2xl font-bold text-green-800">{result.slice(1).join(', ')}</p>
+              </div>
+            ) : (
+              <div className="flex flex-col items-center justify-center h-full">
+                <CropRecommendationDiagram />
+              </div>
+            )}
+          </div>
         </div>
       </div>
-    </div>
   );
 };
 

@@ -9,7 +9,7 @@ function Forecast({ weather }) {
 
   useEffect(() => {
     const fetchForecastData = async () => {
-      const apiKey = "adc2c608775248879cd174146240409"; 
+      const apiKey = "ddf76d77e28e4b6f979151335241610"; 
       const url = `https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${data.location.name}&days=5`;
 
       try {
@@ -97,7 +97,7 @@ function Forecast({ weather }) {
         </div>
       </div>
       <div className="forecast">
-        <h3>5-Day Forecast:</h3>
+        <h3>3-Day Forecast:</h3>
         <div className="forecast-container">
           {forecastData &&
             forecastData.map((day) => (

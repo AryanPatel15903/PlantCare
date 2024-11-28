@@ -60,7 +60,7 @@ const Footer = () =>{
 
                 <ul className="mt-6 space-y-4">
                     <li>
-                        <Link to="/"  className="flex text-base text-black transition-all duration-200 hover:text-green-600 focus:text-blue-600"> About </Link>
+                        <Link to="/about"  className="flex text-base text-black transition-all duration-200 hover:text-green-600 focus:text-blue-600"> About </Link>
                     </li>
 
                     <li>
@@ -68,11 +68,11 @@ const Footer = () =>{
                     </li>
 
                     <li>
-                        <Link to="/"  className="flex text-base text-black transition-all duration-200 hover:text-green-600 focus:text-blue-600"> Works </Link>
+                        <Link to="/service"  className="flex text-base text-black transition-all duration-200 hover:text-green-600 focus:text-blue-600"> Service </Link>
                     </li>
 
                     <li>
-                        <Link to="/"  className="flex text-base text-black transition-all duration-200 hover:text-green-600 focus:text-blue-600"> Career </Link>
+                        <Link to="/contact"  className="flex text-base text-black transition-all duration-200 hover:text-green-600 focus:text-blue-600"> Contact </Link>
                     </li>
                 </ul>
             </div>

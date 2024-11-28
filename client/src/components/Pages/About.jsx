@@ -11,12 +11,12 @@ const About = () => {
     return(
         <>
         <Navbar/>
-        <div className="hero-mid">
-            <img src={about} alt="hero" />
-            <div className="hero-text">
-                <h1>About</h1>
-            </div>
-        </div>
+        <section className="relative h-96 overflow-hidden">
+          <img src={about} alt="Service hero" className="w-full h-full object-cover" />
+          <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+            <h1 className="text-5xl font-bold text-white tracking-wide">About Us</h1>
+          </div>
+        </section>
 
 
         <section className="overflow-hidden pt-20 pb-12 lg:pt-[120px] lg:pb-[90px] dark:bg-dark">
@@ -624,9 +624,7 @@ const About = () => {
 
             <div className="w-full px-4 lg:w-1/2 xl:w-5/12">
               <div className="mt-10 lg:mt-0">
-                <span className="block mb-4  text-lg font-semibold text-primary">
-                  Why Choose Us
-                </span>
+              
                 <h2 className="mb-5 text-3xl font-bold text-dark dark:text-gray-800 sm:text-[40px]/[48px]">
                 Empowering Farmers, Enriching the Earth.
                 </h2>   
@@ -638,7 +636,7 @@ const About = () => {
                 </p>
                 <Link to="/service"
                   
-                  className="inline-flex items-center justify-center py-3 text-base font-medium text-center text-gray-900 border border-transparent rounded-md px-7 bg-green-600 hover:bg-green-500"
+                  className="inline-flex items-center px-6 py-3 bg-green-600 text-white font-semibold rounded-full hover:bg-green-700 transition-colors duration-300"
                 >
                   Start Journey With Us
                 </Link>
@@ -648,6 +646,23 @@ const About = () => {
         </div>
       </section>
 
+      <div className="bg-green-50 py-16">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl font-bold text-center text-gray-800 mb-12">Why Choose Us</h2>
+          <div className="grid md:grid-cols-3 gap-8">
+            {[
+              { title: "Innovative Technology", description: "Cutting-edge solutions tailored for modern agriculture" },
+              { title: "Sustainable Practices", description: "Promoting eco-friendly farming methods for a greener future" },
+              { title: "Expert Support", description: "Dedicated team of agricultural specialists at your service" }
+            ].map((item, index) => (
+              <div key={index} className="bg-white p-6 rounded-lg shadow-md">
+                <h3 className="text-xl font-semibold text-gray-800 mb-3">{item.title}</h3>
+                <p className="text-gray-600">{item.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+        </div>
         <Footer/>
         </>
     )
