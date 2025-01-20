@@ -4,7 +4,6 @@ import CropRecommendationDiagram from './cropDiagram';
 import { Leaf, Droplet, Thermometer, ArrowLeft } from 'lucide-react';
 
 const CropRem = () => {
-  // State variables to store form input values and prediction result
   const [formValues, setFormValues] = useState({
     nitrogen: '',
     phosphorus: '',
@@ -13,9 +12,46 @@ const CropRem = () => {
     temperature: ''
   });
   const navigate = useNavigate();
-
   const [result, setResult] = useState([]);
-  const [hasSubscription, setHasSubscription] = useState(false); // New state for subscription status
+  const [hasSubscription, setHasSubscription] = useState(false);
+
+  // Fetch JSON data from the API on component mount
+  useEffect(() => {
+    const fetchSoilData = async () => {
+      try {
+        const response = await fetch('http://192.168.54.8/data', { mode: 'no-cors' });
+        console.log('Response Status:', response.status);
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const text = await response.text();
+        console.log('Response Text:', text);
+
+        const data = text ? JSON.parse(text) : {};
+
+        console.log('Parsed Data:', data);
+
+        if (data.nitro !== undefined && data.phosp !== undefined && data.potass !== undefined && data.soilMoisture !== undefined && data.temperature !== undefined) {
+          setFormValues({
+            nitrogen: data.nitro,
+            phosphorus: data.phosp,
+            potassium: data.potass,
+            moisture: data.soilMoisture,
+            temperature: data.temperature
+          });
+        } else {
+          throw new Error('Incomplete data received from the server.');
+        }
+      } catch (error) {
+        console.error('Error fetching soil data:', error);
+        // Optionally, set default values or notify the user
+      }
+    };
+
+    fetchSoilData();
+  }, []);
 
   // Check subscription status on component mount
   useEffect(() => {
@@ -30,7 +66,7 @@ const CropRem = () => {
           });
           const data = await response.json();
           if (data.subscription) {
-            setHasSubscription(true); // User has an active subscription
+            setHasSubscription(true);
           }
         } catch (error) {
           console.error('Error checking subscription:', error);
@@ -52,7 +88,7 @@ const CropRem = () => {
     e.preventDefault();
 
     if (!hasSubscription) {
-      navigate("/Subscription"); // Redirect if no subscription
+      navigate("/Subscription");
       return;
     }
     try {
@@ -79,13 +115,14 @@ const CropRem = () => {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100 p-4">
-        <button
-          className="fixed top-4 left-4 bg-white text-green-600 py-2 px-4 rounded-full shadow-lg hover:bg-green-50 transition duration-300 font-semibold flex items-center"
-          onClick={() => navigate(-1)}
-        >
-          <ArrowLeft size={20} className="mr-2" />
-          Back
-        </button>
+      <button
+        className="fixed top-4 left-4 bg-white text-green-600 py-2 px-4 rounded-full shadow-lg hover:bg-green-50 transition duration-300 font-semibold flex items-center"
+        onClick={() => navigate(-1)}
+      >
+        <ArrowLeft size={20} className="mr-2" />
+        Back
+      </button>
+
       {/* Button to redirect to the service page */}
       <div className="absolute top-4 right-4">
         <button
@@ -95,20 +132,19 @@ const CropRem = () => {
           Go to Service
         </button>
       </div>
-     
 
       <div className="flex w-full max-w-4xl bg-white rounded-lg shadow-lg overflow-hidden">
-        
         {/* Form Section */}
         <div className="w-1/2 p-8">
           <h1 className="text-2xl font-bold mb-6 text-[#07074D] text-center">Crop Recommendation Form</h1>
           <form onSubmit={handleSubmit}>
             <div className="mb-4">
-              <label className="mb-2 block text-base font-medium text-[#07074D] text-left inset-y-0 left-0 pl-4 flex items-center pointer-events-none"><Leaf className="h-6 w-6 text-green-500 " />Nitrogen</label>
+              <label className="mb-2 block text-base font-medium text-[#07074D] text-left pl-4 flex items-center">
+                <Leaf className="h-6 w-6 text-green-500 " />Nitrogen
+              </label>
               <input
-                type="number" 
+                type="number"
                 name="nitrogen"
-                placeholder="Enter Nitrogen level"
                 value={formValues.nitrogen}
                 onChange={handleInputChange}
                 required
@@ -117,11 +153,12 @@ const CropRem = () => {
             </div>
 
             <div className="mb-4">
-              <label className="mb-2 block text-base font-medium text-[#07074D] text-left inset-y-0 left-0 pl-4 flex items-center pointer-events-none"><Leaf className="h-6 w-6 text-green-500" />Phosphorus</label>
+              <label className="mb-2 block text-base font-medium text-[#07074D] text-left pl-4 flex items-center">
+                <Leaf className="h-6 w-6 text-green-500" />Phosphorus
+              </label>
               <input
                 type="number"
                 name="phosphorus"
-                placeholder="Enter Phosphorus level"
                 value={formValues.phosphorus}
                 onChange={handleInputChange}
                 required
@@ -130,11 +167,12 @@ const CropRem = () => {
             </div>
 
             <div className="mb-4">
-              <label className="mb-2 block text-base font-medium text-[#07074D] text-left inset-y-0 left-0 pl-4 flex items-center pointer-events-none"><Leaf className="h-6 w-6 text-green-500" />Potassium</label>
+              <label className="mb-2 block text-base font-medium text-[#07074D] text-left pl-4 flex items-center">
+                <Leaf className="h-6 w-6 text-green-500" />Potassium
+              </label>
               <input
                 type="number"
                 name="potassium"
-                placeholder="Enter Potassium level"
                 value={formValues.potassium}
                 onChange={handleInputChange}
                 required
@@ -143,11 +181,12 @@ const CropRem = () => {
             </div>
 
             <div className="mb-4">
-              <label className="mb-2 block text-base font-medium text-[#07074D] text-left inset-y-0 left-0 pl-4 flex items-center pointer-events-none"><Droplet className="h-6 w-6 text-blue-500" />Temperature</label>
+              <label className="mb-2 block text-base font-medium text-[#07074D] text-left pl-4 flex items-center">
+                <Droplet className="h-6 w-6 text-blue-500" />Temperature
+              </label>
               <input
                 type="number"
                 name="temperature"
-                placeholder="Enter Temperature level"
                 value={formValues.temperature}
                 onChange={handleInputChange}
                 required
@@ -156,11 +195,12 @@ const CropRem = () => {
             </div>
 
             <div className="mb-4">
-              <label className="mb-2 block text-base font-medium text-[#07074D] text-left inset-y-0 left-0 pl-4 flex items-center pointer-events-none"><Thermometer className="h-6 w-6 text-red-500" />Moisture</label>
+              <label className="mb-2 block text-base font-medium text-[#07074D] text-left pl-4 flex items-center">
+                <Thermometer className="h-6 w-6 text-red-500" />Moisture
+              </label>
               <input
                 type="number"
                 name="moisture"
-                placeholder="Enter Moisture level"
                 value={formValues.moisture}
                 onChange={handleInputChange}
                 required
@@ -169,9 +209,10 @@ const CropRem = () => {
             </div>
 
             <div>
-              <button 
-                type="submit" 
-                className="w-full rounded-md bg-green-600 hover:bg-green-500 py-3 text-base font-semibold text-white transition duration-200 ease-in-out">
+              <button
+                type="submit"
+                className="w-full rounded-md bg-green-600 hover:bg-green-500 py-3 text-base font-semibold text-white transition duration-200 ease-in-out"
+              >
                 Submit
               </button>
             </div>
@@ -179,23 +220,23 @@ const CropRem = () => {
         </div>
 
         {/* Result Section */}
-          <div className="w-1/2 bg-gradient-to-r from-green-100 to-green-200 p-8">
-            {result.length > 0 ? (
-              <div className="mt-5 p-5 bg-white rounded-md shadow-md">
-                <h3 className="text-lg font-bold text-green-700">Most Recommended Crop:</h3>
-                <h2 className="text-2xl font-bold text-green-800">{result[0]}</h2>
+        <div className="w-1/2 bg-gradient-to-r from-green-100 to-green-200 p-8">
+          {result.length > 0 ? (
+            <div className="mt-5 p-5 bg-white rounded-md shadow-md">
+              <h3 className="text-lg font-bold text-green-700">Most Recommended Crop:</h3>
+              <h2 className="text-2xl font-bold text-green-800">{result[0]}</h2>
 
-                <h3 className="text-lg font-bold text-green-700 mt-4">Other Recommended Crops:</h3>
-                <p className="text-2xl font-bold text-green-800">{result.slice(1).join(', ')}</p>
-              </div>
-            ) : (
-              <div className="flex flex-col items-center justify-center h-full">
-                <CropRecommendationDiagram />
-              </div>
-            )}
-          </div>
+              <h3 className="text-lg font-bold text-green-700 mt-4">Other Recommended Crops:</h3>
+              <p className="text-2xl font-bold text-green-800">{result.slice(1).join(', ')}</p>
+            </div>
+          ) : (
+            <div className="flex flex-col items-center justify-center h-full">
+              <CropRecommendationDiagram />
+            </div>
+          )}
         </div>
       </div>
+    </div>
   );
 };
 
